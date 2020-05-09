@@ -1,0 +1,21 @@
+[
+    {
+        "id": "b0489819.1be718",
+        "type": "template",
+        "z": "2fc87448.1d206c",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n    <head></head>\n    <body>\n    <form id=\"tweet_form\">\n        <input type=\"text\" name=\"student_id\" id=\"student_id\"/>\n        <input type=\"text\" name=\"tweet\" id=\"tweet\"/>\n        <input type=\"button\" value=\"つぶやく\" id=\"submit_button\"/>\n    </form>\n    \n    <table id=\"timeline\">\n        <thead>\n            <th>学生番号</th>\n            <th>つぶやき</th>\n        </thead>\n    {{#payload}}\n        <tr>\n            <td>{{STUDENT_ID}}</td>\n            <td>{{TWEET}}</td>\n        </tr>\n    {{/payload}}        \n    </table>\n    </body>\n    \n    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>\n    <script type=\"text/javascript\">\n    \n        $(document).ready(function(){\n            \n            // //Sessionにstudent_idがなければ\n            // if(window.sessionStorage.getItem(['student_id'])==null){\n            //     student_id = window.prompt(\"学生番号を入力してください\", \"\");\n            //     location.href=\n            // }\n            \n            \n            $('#submit_button').on('click', function() {\n                \n                $('#timeline tbody').append(\"<tr><td>\"+$('#student_id').val()+\"</td><td>\"+$('#tweet').val()+\"</td></tr>\");\n\n              tweet_info = {\n                STUDENT_ID: $('#student_id').val(),\n                TWEET: $('#tweet').val()\n              }\n            \n              $.ajax({\n                type: 'POST',\n                url: '/api/tweet',\n                data: JSON.stringify(tweet_info),\n                contentType: 'application/json',\n                success: function() {\n                },\n                dataType: 'json'\n              });\n            });\n        });\n    </script>\n</html>\n\n",
+        "output": "str",
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "933431e.af85ad"
+            ]
+        ]
+    }
+]
